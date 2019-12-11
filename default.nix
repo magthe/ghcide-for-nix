@@ -1,11 +1,11 @@
-with (import <nixpkgs> {});
-
+{ pkgs ? (import <nixpkgs> {}) }:
+with pkgs;
 let
   hl = haskell.lib;
 
-  ghc_ver = "ghc865";
+  ghcver = builtins.replaceStrings ["-" "."] ["" ""] pkgs.ghc.name;
 
-  myHaskellPackages = pkgs.haskell.packages.${ghc_ver}.override {
+  myHaskellPackages = pkgs.haskell.packages.${ghcver}.override {
     overrides = self: super: rec {
       haskell-lsp = self.callHackage "haskell-lsp" "0.17.0.0" {};
       haskell-lsp-types = self.callHackage "haskell-lsp-types" "0.17.0.0" {};
