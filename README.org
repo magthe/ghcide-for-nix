@@ -1,0 +1,3 @@
+A build of [[https://hackage.haskell.org/package/ghcide][ghcide]] that isn't broken.
+
+More info to follow...
