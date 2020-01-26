@@ -1,3 +1,38 @@
-A build of [[https://hackage.haskell.org/package/ghcide][ghcide]] that isn't broken.
+* A build of [[https://hackage.haskell.org/package/ghcide][ghcide]] that isn't broken.
 
-More info to follow...
+  I maintain this repo, with the accompanying cache, solely for my own use.
+
+** Goal
+
+   I've found that a disappointing number of Haskell packages is marked as
+   broken in =nixpkgs=, in particular =ghcide=. This repo is my attempt at
+   fixing this /so it works for me/. If I find other useful tools that are
+   broken I might add them too in the future.
+
+** Means
+
+   I've tried other repos/caches that contain =ghcide=, but I either found them
+   rather confusing to use, or that they didn't provide a usable cache.
+
+   I'm trying to keep the setup simple. That unfortunately means that the
+   ability to configure is rather limited. This repo pins =nixpkgs= and exports
+   a full package set.
+
+** Usage
+
+   This is how I use this repo
+
+   #+begin_example
+   with (import (builtins.fetchGit {
+     name = "ghcide-for-nix";
+     url = https://github.com/magthe/ghcide-for-nix;
+     rev = "927a8caa62cece60d9d66dbdfc62b7738d61d75f";
+   }) );
+
+   let
+     ...
+   #+end_example
+
+** Build cache
+
+   Go to [[https://magthe.cachix.org/][Cachix]] for information about how to use a cache of pre-built packages.
