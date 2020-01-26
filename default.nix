@@ -1,15 +1,14 @@
 let
   nixpkgs = import (builtins.fetchTarball {
-    name = "nixos-unstable-2020-01-09";
-    url = https://github.com/NixOS/nixpkgs-channels/archive/441a181498a534256189b6494ddfc20c0755dfff.tar.gz;
-    sha256 = "0bnfjy25yvydq5wxh9aypn876g5l1h4dsh512nz9dh8a0cb3bczc";
+    name = "nixpkgs-unstable-2020-01-26";
+    url = https://github.com/NixOS/nixpkgs-channels/archive/62d86db572901a960838d4d5acadc039b207cfef.tar.gz;
+    sha256 = "sha256:07xdzv1wn1mnswn0xx6mz0ldbjqmdhylzpvhhk3kpq8zm4j7xymh";
   }) { inherit config; };
 
   config = {
     allowUnfree = true;
     packageOverrides = pkgs:
       let
-        ghcver = "ghc865";
         hl = pkgs.haskell.lib;
         t = pkgs.lib.trivial;
 
@@ -22,32 +21,40 @@ let
           ];
       in rec {
         ghcide = haskellPackages.ghcide;
-        haskellPackages = pkgs.haskell.packages.${ghcver}.override {
+        haskellPackages = pkgs.haskellPackages.override {
           overrides = self: super: {
-            ghcide = dontAndDisable (self.callHackageDirect {
+            ghcide = hl.addBuildDepends (dontAndDisable (self.callHackageDirect {
               pkg ="ghcide";
-              ver = "0.0.5";
-              sha256 = "sha256:0z2jhbxx2aykn7iqyjrmfa57bn6a0dp1nk01kkqanb7sfc4fq1cc";
-            } {});
-            haskell-lsp = dontAndDisable (self.callHackageDirect {
+              ver = "0.0.6";
+              sha256 = "sha256:0wa1z5pig00i32hpy34dzbrw224sz5jika83ixbm76s6iz8ai7zc";
+            } {})) [self.haskell-lsp-types_0_19_0_0
+                    self.haskell-lsp_0_19_0_0
+                    self.regex-tdfa_1_3_1_0
+                   ];
+            haskell-lsp_0_19_0_0 = hl.addBuildDepends (dontAndDisable (self.callHackageDirect {
               pkg = "haskell-lsp";
-              ver = "0.18.0.0";
-              sha256 = "sha256:0pd7kxfp2limalksqb49ykg41vlb1a8ihg1bsqsnj1ygcxjikziz";
-            } {});
-            haskell-lsp-types = dontAndDisable (self.callHackageDirect {
+              ver = "0.19.0.0";
+              sha256 = "sha256:1v0r57g2dhradnjnvp40jmv5swawg9k3d735kj50dca1gbx66y0c";
+            } {})) [self.haskell-lsp-types_0_19_0_0];
+            haskell-lsp-types_0_19_0_0 = dontAndDisable (self.callHackageDirect {
               pkg = "haskell-lsp-types";
-              ver = "0.18.0.0";
-              sha256 = "sha256:1s3q3d280qyr2yn15zb25kv6f5xcizj3vl0ycb4xhl00kxrgvd5f";
+              ver = "0.19.0.0";
+              sha256 = "sha256:1z0c9c2zjb4ad3ffzng9njyn9ci874xd8mmqwnvnm3hyncf1430g";
             } {});
             hie-bios = dontAndDisable (self.callHackageDirect {
               pkg = "hie-bios";
-              ver = "0.2.1";
-              sha256 = "sha256:0kc0iqrx3gcyf9f01mrns6jpx8qa6k3vn7kx4fa2j1s5vx7s9hp8";
+              ver = "0.3.2";
+              sha256 = "sha256:08b3z2k5il72ccj2h0c10flsmz4akjs6ak9j167i8cah34ymygk6";
             } {});
-            shake = dontAndDisable (self.callHackageDirect {
-              pkg = "shake";
-              ver = "0.18.3";
-              sha256 = "sha256:0fwcqnn2c97r7rmgq2hih3jbwbwp0smw1c9q8v6hh7p2jqkx2wsf";
+            regex-tdfa_1_3_1_0 = hl.addBuildDepends (dontAndDisable (self.callHackageDirect {
+              pkg = "regex-tdfa";
+              ver = "1.3.1.0";
+              sha256 = "sha256:1a0l7kdjzp98smfp969mgkwrz60ph24xy0kh2dajnymnr8vd7b8g";
+            } {})) [self.regex-base_0_94_0_0];
+            regex-base_0_94_0_0 = dontAndDisable (self.callHackageDirect {
+              pkg = "regex-base";
+              ver = "0.94.0.0";
+              sha256 = "sha256:0x2ip8kn3sv599r7yc9dmdx7hgh5x632m45ga99ib5rnbn6kvn8x";
             } {});
           };
         };
