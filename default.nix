@@ -23,19 +23,22 @@ let
         ghcide = haskellPackages.ghcide;
         haskellPackages = pkgs.haskellPackages.override {
           overrides = self: super: {
-            ghcide = hl.addBuildDepends (dontAndDisable (self.callHackageDirect {
+            ghcide = dontAndDisable (self.callHackageDirect {
               pkg ="ghcide";
               ver = "0.0.6";
               sha256 = "sha256:0wa1z5pig00i32hpy34dzbrw224sz5jika83ixbm76s6iz8ai7zc";
-            } {})) [self.haskell-lsp-types_0_19_0_0
-                    self.haskell-lsp_0_19_0_0
-                    self.regex-tdfa_1_3_1_0
-                   ];
-            haskell-lsp_0_19_0_0 = hl.addBuildDepends (dontAndDisable (self.callHackageDirect {
+            } {
+              haskell-lsp-types = self.haskell-lsp-types_0_19_0_0;
+              haskell-lsp = self.haskell-lsp_0_19_0_0;
+              regex-tdfa = self.regex-tdfa_1_3_1_0;
+            });
+            haskell-lsp_0_19_0_0 = dontAndDisable (self.callHackageDirect {
               pkg = "haskell-lsp";
               ver = "0.19.0.0";
               sha256 = "sha256:1v0r57g2dhradnjnvp40jmv5swawg9k3d735kj50dca1gbx66y0c";
-            } {})) [self.haskell-lsp-types_0_19_0_0];
+            } {
+              haskell-lsp-types = self.haskell-lsp-types_0_19_0_0;
+            });
             haskell-lsp-types_0_19_0_0 = dontAndDisable (self.callHackageDirect {
               pkg = "haskell-lsp-types";
               ver = "0.19.0.0";
@@ -46,11 +49,13 @@ let
               ver = "0.3.2";
               sha256 = "sha256:08b3z2k5il72ccj2h0c10flsmz4akjs6ak9j167i8cah34ymygk6";
             } {});
-            regex-tdfa_1_3_1_0 = hl.addBuildDepends (dontAndDisable (self.callHackageDirect {
+            regex-tdfa_1_3_1_0 = dontAndDisable (self.callHackageDirect {
               pkg = "regex-tdfa";
               ver = "1.3.1.0";
               sha256 = "sha256:1a0l7kdjzp98smfp969mgkwrz60ph24xy0kh2dajnymnr8vd7b8g";
-            } {})) [self.regex-base_0_94_0_0];
+            } {
+              regex-base = self.regex-base_0_94_0_0;
+            });
             regex-base_0_94_0_0 = dontAndDisable (self.callHackageDirect {
               pkg = "regex-base";
               ver = "0.94.0.0";
