@@ -1,8 +1,8 @@
 let
   nixpkgs = import (builtins.fetchTarball {
     name = "nixpkgs-unstable-2020-01-26";
-    url = https://github.com/NixOS/nixpkgs-channels/archive/62d86db572901a960838d4d5acadc039b207cfef.tar.gz;
-    sha256 = "sha256:07xdzv1wn1mnswn0xx6mz0ldbjqmdhylzpvhhk3kpq8zm4j7xymh";
+    url = https://github.com/NixOS/nixpkgs-channels/archive/0c960262d159d3a884dadc3d4e4b131557dad116.tar.gz;
+    sha256 = "sha256:0d7ms4dxbxvd6f8zrgymr6njvka54fppph1mrjjlcan7y0dhi5rb";
   }) { inherit config; };
 
   config = {
@@ -25,13 +25,20 @@ let
           overrides = self: super: {
             ghcide = dontAndDisable (self.callHackageDirect {
               pkg ="ghcide";
-              ver = "0.0.6";
-              sha256 = "sha256:0wa1z5pig00i32hpy34dzbrw224sz5jika83ixbm76s6iz8ai7zc";
+              ver = "0.1.0";
+              sha256 = "sha256:0vwaaqb74dzsvx5xdfkzbi8zzvbd5w9l1wdhl3rhvi8ibnrchgfs";
             } {
+              haddock-library = self.haddock-library_1_8_0;
               haskell-lsp-types = self.haskell-lsp-types_0_19_0_0;
               haskell-lsp = self.haskell-lsp_0_19_0_0;
+              hie-bios = self.hie-bios_0_4_0;
               regex-tdfa = self.regex-tdfa_1_3_1_0;
             });
+            haddock-library_1_8_0 = dontAndDisable (self.callHackageDirect {
+              pkg = "haddock-library";
+              ver = "1.8.0";
+              sha256 = "sha256:1hmfrfygazdkyxxgh2n2a0ff38c8p4bnlxpk9gia90jn0c5im2n5";
+            } {});
             haskell-lsp_0_19_0_0 = dontAndDisable (self.callHackageDirect {
               pkg = "haskell-lsp";
               ver = "0.19.0.0";
@@ -44,10 +51,10 @@ let
               ver = "0.19.0.0";
               sha256 = "sha256:1z0c9c2zjb4ad3ffzng9njyn9ci874xd8mmqwnvnm3hyncf1430g";
             } {});
-            hie-bios = dontAndDisable (self.callHackageDirect {
+            hie-bios_0_4_0 = dontAndDisable (self.callHackageDirect {
               pkg = "hie-bios";
-              ver = "0.3.2";
-              sha256 = "sha256:08b3z2k5il72ccj2h0c10flsmz4akjs6ak9j167i8cah34ymygk6";
+              ver = "0.4.0";
+              sha256 = "sha256:19lpg9ymd9656cy17vna8wr1hvzfal94gpm2d3xpnw1d5qr37z7x";
             } {});
             regex-tdfa_1_3_1_0 = dontAndDisable (self.callHackageDirect {
               pkg = "regex-tdfa";
